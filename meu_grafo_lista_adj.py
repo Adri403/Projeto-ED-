@@ -36,8 +36,8 @@ class MeuGrafo(GrafoListaAdjacencia):
         for v1 in vertices:
             for v2 in vertices:
                 if v1 != v2 and v2 not in dict_adjacentes[v1]:
-                    inverso = f"{v1}-{v2}"
-                    par = f"{v2}-{v1}"
+                    par = f"{v1}-{v2}"
+                    inverso = f"{v2}-{v1}"
 
                     if par not in vertices_nao_adjacentes and inverso not in vertices_nao_adjacentes:
                         vertices_nao_adjacentes.add(par)
@@ -54,9 +54,9 @@ class MeuGrafo(GrafoListaAdjacencia):
 
         for x in arestas:
            if arestas[x].v1 == arestas[x].v2:
-               return True, "existe laço no grafo"
+               return True
         
-        return False, "não existe laço no grafo"
+        return False
 
     def grau(self, V):
         '''
@@ -80,7 +80,7 @@ class MeuGrafo(GrafoListaAdjacencia):
 
             return contador
         else:
-            return "Este vértice não existe no grafo"
+            raise VerticeInvalidoError()
 
     def ha_paralelas(self):
         '''
@@ -95,9 +95,9 @@ class MeuGrafo(GrafoListaAdjacencia):
                     continue
                 else:
                     if (arestas[k].v1 == arestas[l].v1 and arestas[k].v2 == arestas[l].v2) or (arestas[k].v1 == arestas[l].v2 and arestas[k].v2 == arestas[l].v1):
-                        return True, "existem paralelas no grafo"
+                        return True
                     
-        return False, "não existem paralelas no grafo"
+        return False
 
     def arestas_sobre_vertice(self, V):
         '''
@@ -109,7 +109,7 @@ class MeuGrafo(GrafoListaAdjacencia):
         arestas = self.arestas
         vertices = self.vertices
         vertices_string = list()
-        lista_arestas = list()
+        lista_arestas = set()
 
         for c in range(len(vertices)):
             vertices_string.append(str(vertices[c]))
@@ -117,18 +117,19 @@ class MeuGrafo(GrafoListaAdjacencia):
         if V in vertices_string:
             for k in arestas:
                 if V == str(arestas[k].v1) or V == str(arestas[k].v2):
-                    lista_arestas.append(k)
+                    lista_arestas.add(k)
 
             return lista_arestas
         else:
-            return "Este vértice não existe no grafo"
+            raise VerticeInvalidoError()
 
     def eh_completo(self):
         '''
         Verifica se o grafo é completo.
         :return: Um valor booleano que indica se o grafo é completo
         '''
-        passarestas = self.arestas
+        
+        arestas = self.arestas
         vertices = self.vertices
         dict_adjacentes = dict()
 
@@ -154,6 +155,6 @@ class MeuGrafo(GrafoListaAdjacencia):
                     continue
                 else:
                     if str(vertices[s]) not in dict_adjacentes[j]:
-                        return False, "não é completo"
+                        return False
                 
-        return True, "é completo"
+        return True
