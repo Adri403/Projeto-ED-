@@ -170,9 +170,31 @@ class MeuGrafo(GrafoListaAdjacencia):
                 if str(v) != d and str(v) not in dict_adjacentes[d]:
                     return False
         return True
+            
+    def vertices_adjacentes(self):
 
+        arestas = self.arestas
+        dict_adjacentes = dict()
 
-    
+        for k in arestas:
+            v1 = str(arestas[k].v1)
+            v2 = str(arestas[k].v2)
+
+            if v1 not in dict_adjacentes:
+                dict_adjacentes[v1] = []
+
+            if v2 not in dict_adjacentes[v1]:
+                dict_adjacentes[v1].append(v2)
+
+            if v2 not in dict_adjacentes:
+                dict_adjacentes[v2] = []
+
+            if v1 not in dict_adjacentes[v2]:
+                dict_adjacentes[v2].append(v1)
+
+        return dict_adjacentes
+
+## Inicio do codigo dfs
     def dfs(self, V, vertices_visitados=None, arestas_passadas=None, arvore=None):
         ''' paraiba.adiciona_aresta('a1', 'J', 'C')
             paraiba.adiciona_aresta('a2', 'C', 'E')
@@ -213,28 +235,3 @@ class MeuGrafo(GrafoListaAdjacencia):
                 arvore.append(str(arestas[a]))
                 arestas_passadas.append(a)
                 MeuGrafo.dfs(self, V, vertices_visitados, arestas_passadas)
-
-
-            
-    def vertices_adjacentes(self):
-
-        arestas = self.arestas
-        dict_adjacentes = dict()
-
-        for k in arestas:
-            v1 = str(arestas[k].v1)
-            v2 = str(arestas[k].v2)
-
-            if v1 not in dict_adjacentes:
-                dict_adjacentes[v1] = []
-
-            if v2 not in dict_adjacentes[v1]:
-                dict_adjacentes[v1].append(v2)
-
-            if v2 not in dict_adjacentes:
-                dict_adjacentes[v2] = []
-
-            if v1 not in dict_adjacentes[v2]:
-                dict_adjacentes[v2].append(v1)
-
-        return dict_adjacentes
