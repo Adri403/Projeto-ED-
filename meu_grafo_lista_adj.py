@@ -12,7 +12,6 @@ class MeuGrafo(GrafoListaAdjacencia):
         :return: Um objeto do tipo set que contém os pares de vértices não adjacentes
         '''
         vertices = self.vertices
-        dict_adjacentes = dict()
 
         # Cria um dicionário de vértices em que cada chave possui uma lista de vértices adjacentes a ela
         dict_adjacentes = MeuGrafo.vertices_adjacentes(self)
@@ -28,7 +27,7 @@ class MeuGrafo(GrafoListaAdjacencia):
                 if v1 not in dict_adjacentes and v2 not in dict_adjacentes:
                     par = f"{v1}-{v2}"
                     inverso = f"{v2}-{v1}"
-                    # Se o par ou o inverso das extremidades dos vértices não estiver no set de vértices não adjacentes, então adiciona-os
+                    # Se o par ou o inverso das extremidades da aresta não estiver no set de vértices não adjacentes, então adiciona o par
                     if par not in vertices_nao_adjacentes and inverso not in vertices_nao_adjacentes and v1 != v2:
                             vertices_nao_adjacentes.add(par)
                     
@@ -81,7 +80,7 @@ class MeuGrafo(GrafoListaAdjacencia):
                 v1 = str(arestas[k].v1)
                 v2 = str(arestas[k].v2)
 
-                # Verifica se vértices da aresta são iguais ao vértice V
+                # Verifica se vértices v1 e v2 da aresta são iguais ao vértice V
                 if V == v1 and V == v2:
                     grau += 2
                 # Verifica se um dos vértices da aresta são iguais ao vértice V
@@ -170,68 +169,60 @@ class MeuGrafo(GrafoListaAdjacencia):
                 if str(v) != d and str(v) not in dict_adjacentes[d]:
                     return False
         return True
+    
+
+
+    
+    def dfs(self, V, vertices_visitados, arvore):
+        
+        # Variável "grafo" recebe um dicionário de chaves(vértices) em que seus valores são listas dos vértices adjacentes a ele
+        grafo = MeuGrafo.vertices_adjacentes(self)
+        arestas = self.arestas
+        
+        # Se vértice não estiver na lista de visitados, adicione-o
+        if V not in vertices_visitados:
+            vertices_visitados.append(V)
+            
+            # Percorre a lista de adjacentes da chave(vértice)
+            for vizinho in grafo[V]:
+                # Verifica se o vizinho não está na lista de visitados 
+                if vizinho not in vertices_visitados:
+                    # Percorre as arestas para poder pegar a aresta que tem os vértices "V" e "vizinho" nas extremidades
+                    for ars in arestas:
+                        # Verifica se essa formatação "V-vizinho" está igual a uma das arestas do grafo
+                        if f'{V}-{vizinho}' == str(arestas[ars])[3:6] or f'{vizinho}-{V}' == str(arestas[ars])[3:6] or f'{V}-{vizinho}' == str(arestas[ars])[2:5] or f'{vizinho}-{V}' == str(arestas[ars])[2:5]:
+                            arvore.append(ars)
+                            break
+                    MeuGrafo.dfs(self, vizinho, vertices_visitados, arvore)
+
+        return arvore
+            
             
     def vertices_adjacentes(self):
 
         arestas = self.arestas
         dict_adjacentes = dict()
 
+        # Percorre o dicionário de arestas
         for k in arestas:
+            # Variáveis recebem os vértices da aresta
             v1 = str(arestas[k].v1)
             v2 = str(arestas[k].v2)
 
+            # Se v1 não estiver no dicionário de adjacentes, então adiciona-o
             if v1 not in dict_adjacentes:
-                dict_adjacentes[v1] = []
+                dict_adjacentes[v1] = list()
 
+            # Se v2 não estiver dentro da lista de adjacentes ao v1, então adiciona na lista do v1
             if v2 not in dict_adjacentes[v1]:
                 dict_adjacentes[v1].append(v2)
 
+            # Mesma coisa aqui, mas com o segundo vértice
             if v2 not in dict_adjacentes:
-                dict_adjacentes[v2] = []
+                dict_adjacentes[v2] = list()
 
+            # Mesma coisa do "if v2 not in dict_adjacentes[v1]", mas o contrário
             if v1 not in dict_adjacentes[v2]:
                 dict_adjacentes[v2].append(v1)
 
         return dict_adjacentes
-
-## Inicio do codigo dfs
-    def dfs(self, V, vertices_visitados=None, arestas_passadas=None, arvore=None):
-        ''' paraiba.adiciona_aresta('a1', 'J', 'C')
-            paraiba.adiciona_aresta('a2', 'C', 'E')
-            paraiba.adiciona_aresta('a3', 'C', 'E')
-            paraiba.adiciona_aresta('a4', 'C', 'P')
-            paraiba.adiciona_aresta('a5', 'C', 'P')
-            paraiba.adiciona_aresta('a6', 'C', 'M')
-            paraiba.adiciona_aresta('a7', 'C', 'M')
-            paraiba.adiciona_aresta('a8', 'M', 'T')
-            paraiba.adiciona_aresta('a9', 'T', 'Z')'''
-
-        if vertices_visitados is None:
-            vertices_visitados = list()
-        if arestas_passadas is None:
-            arestas_passadas = list()
-        if arvore is None:
-            arvore = list()
-
-        arestas = self.arestas
-        vertices_visitados.append(V)
-        # Recebe um set de arestas ligadas ao vértice V
-        arestas_do_vertice_atual = MeuGrafo.arestas_sobre_vertice(self, V)
-        
-        for a in arestas_do_vertice_atual:
-            v1 = str(arestas[a].v1)  
-            v2 = str(arestas[a].v2)
-
-            # Se o vértice v1 estiver na lista de vértices visitados e v2 (que deve ser diferente de V) não estiver e a aresta analisada não estiver na lista de arestas passadas, então:
-            if v1 in vertices_visitados and v2 != V and v2 not in vertices_visitados and a not in arestas_passadas:
-                V = v2
-                arvore.append(str(arestas[a]))
-                arestas_passadas.append(a)
-                MeuGrafo.dfs(self, V, vertices_visitados, arestas_passadas)
-
-            # Se o vértice v2 estiver na lista de vértices visitados e v1 (que deve ser diferente de V) não estiver e a aresta analisada não estiver na lista de arestas passadas, então:
-            elif v2 in vertices_visitados and v1 != V and v1 not in vertices_visitados and a not in arestas_passadas:
-                V = v1
-                arvore.append(str(arestas[a]))
-                arestas_passadas.append(a)
-                MeuGrafo.dfs(self, V, vertices_visitados, arestas_passadas)
