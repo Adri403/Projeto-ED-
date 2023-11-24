@@ -202,9 +202,7 @@ class TestGrafo(unittest.TestCase):
         self.assertNotEqual(self.g_p, self.g_p4)
 
     def test_vertices_nao_adjacentes(self):
-        self.assertEqual(self.g_p.vertices_nao_adjacentes(),
-                         {'J-E', 'J-P', 'J-M', 'J-T', 'J-Z', 'C-Z', 'E-P', 'E-M', 'E-T', 'E-Z', 'P-M', 'P-T', 'P-Z',
-                          'M-Z'})
+        self.assertEqual(self.g_p.vertices_nao_adjacentes(), {'J-E', 'J-P', 'J-M', 'J-T', 'J-Z', 'C-Z', 'E-P', 'E-M', 'E-T', 'E-Z', 'P-M', 'P-T', 'P-Z', 'M-Z'})
         self.assertEqual(self.g_d.vertices_nao_adjacentes(), {'A-C', 'A-D', 'B-C', 'B-D', 'C-D'})
         self.assertEqual(self.g_d2.vertices_nao_adjacentes(), {'A-B', 'A-C', 'A-D', 'B-C', 'B-D', 'C-D'})
         self.assertEqual(self.g_c.vertices_nao_adjacentes(), set())
@@ -285,3 +283,17 @@ class TestGrafo(unittest.TestCase):
         self.assertFalse((self.g_l5.eh_completo()))
         self.assertFalse((self.g_d.eh_completo()))
         self.assertFalse((self.g_d2.eh_completo()))
+
+    
+    def test_dfs(self):
+        self.assertEqual(self.g_p.dfs("J"), )
+        self.assertEqual(self.g_c.dfs("C"), ["a1", "a2", "a6"])
+        self.assertEqual(self.g_c2.dfs("Nina"), ["amiga"])
+        self.assertEqual(self.g_c3.dfs("Único"), [])
+        self.assertEqual(self.g_l1.dfs("A"), ["a2"])
+        self.assertEqual(self.g_l2.dfs("B"), ["a1"])
+        self.assertEqual(self.g_l3.dfs("C"), ["a1"])
+        self.assertEqual(self.g_l4.dfs("D"), [])
+        self.assertEqual(self.g_d.dfs("A"), ["asd"])
+        self.assertEqual(self.g_d2.dfs("B"), [])
+    
