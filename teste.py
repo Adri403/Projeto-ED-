@@ -1,7 +1,6 @@
-from bibgrafo.grafo_lista_adjacencia import GrafoListaAdjacencia
 from meu_grafo_lista_adj import MeuGrafo
 
-grafo = GrafoListaAdjacencia()
+grafo = MeuGrafo()
 arestas = grafo.arestas
 
 grafo.adiciona_vertice("K")
@@ -36,8 +35,4 @@ grafo.adiciona_aresta("16", "D", "B")
 grafo.adiciona_aresta("17", "E", "B")
 
 
-
-
-for c in MeuGrafo.dfs(grafo, "E", list(), list()):
-    print(str(arestas[c])[:7])
- 
+print(grafo.dfs("K"))
