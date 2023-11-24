@@ -14,7 +14,7 @@ class MeuGrafo(GrafoListaAdjacencia):
         vertices = self.vertices
 
         # Cria um dicionário de vértices em que cada chave possui uma lista de vértices adjacentes a ela
-        dict_adjacentes = MeuGrafo.vertices_adjacentes(self)
+        dict_adjacentes = self.vertices_adjacentes()
         
         vertices_nao_adjacentes = set()
         
@@ -62,18 +62,15 @@ class MeuGrafo(GrafoListaAdjacencia):
     def grau(self, V):
         '''
         Provê o grau do vértice passado como parâmetro
-        :param V: O rótulo do vértice a ser analisado
+        :para V: O rótulo do vértice a ser analisado
         :return: Um valor inteiro que indica o grau do vértice
         :raises: VerticeInvalidoError se o vértice não existe no grafo
         '''
         arestas = self.arestas
-        vertices = self.vertices
-        vertices_string = list()
+        vertices_string = self.vertices_string()
         grau = 0
 
-        for c in range(len(vertices)):
-            vertices_string.append(str(vertices[c]))
-
+    
         # Verifica se o vértice está no grafo
         if V in vertices_string:
             for k in arestas:
@@ -101,14 +98,11 @@ class MeuGrafo(GrafoListaAdjacencia):
 
         # Percorre o dicionário de arestas.
         for k in arestas:
-            # Percorre o dicionário também, mas arestas l devem diferentes de k.
+            # Percorre o dicionário também, mas arestas "l" devem diferentes de "k".
             for l in arestas:
-                if k == l:
-                    continue
-                else:
-                    # Verifica se os vértices da aresta k são iguais aos da aresta l
-                    if (arestas[k].v1 == arestas[l].v1 and arestas[k].v2 == arestas[l].v2) or (arestas[k].v1 == arestas[l].v2 and arestas[k].v2 == arestas[l].v1):
-                        return True
+                # Verifica se os vértices da aresta k são iguais aos da aresta l
+                if ((arestas[k].v1 == arestas[l].v1 and arestas[k].v2 == arestas[l].v2) or (arestas[k].v1 == arestas[l].v2 and arestas[k].v2 == arestas[l].v1)) and k != l:
+                    return True
                     
         return False
 
@@ -120,12 +114,8 @@ class MeuGrafo(GrafoListaAdjacencia):
         :raises: VerticeInvalidoException se o vértice não existe no grafo
         '''
         arestas = self.arestas
-        vertices = self.vertices
-        vertices_string = list()
+        vertices_string = self.vertices_string()
         set_arestas = set()
-
-        for c in range(len(vertices)):
-            vertices_string.append(str(vertices[c]))
 
         if V in vertices_string:
             # Percorre o dicionário de arestas
@@ -148,20 +138,20 @@ class MeuGrafo(GrafoListaAdjacencia):
         vertices = self.vertices
 
         # Cria um dicionário de vértices em que cada chave possui uma lista de vértices adjacentes a ela
-        dict_adjacentes = MeuGrafo.vertices_adjacentes(self)
+        dict_adjacentes = self.vertices_adjacentes()
 
         # Se o grafo possui um vértice com laço, então retorna falso
-        if len(vertices) == 1 and MeuGrafo.ha_laco(self):
+        if len(vertices) == 1 and self.ha_laco():
             return False
         # Mesma coisa aqui, mas com um grafo de 2 vértices
-        elif len(vertices) == 2 and MeuGrafo.ha_laco(self):
+        elif len(vertices) == 2 and self.ha_laco():
             return False
         # Se o grafo possuir vértices e não possuir arestas, então retorna falso
         elif len(vertices) > 1 and len(arestas) == 0:
             return False
         
         # Cria um dicionário de vértices em que cada chave possui uma lista de vértices adjacentes a ela
-        dict_adjacentes = MeuGrafo.vertices_adjacentes(self)
+        dict_adjacentes = self.vertices_adjacentes()
 
         for v in vertices:
             for d in dict_adjacentes:
@@ -172,32 +162,6 @@ class MeuGrafo(GrafoListaAdjacencia):
     
 
 
-    
-    def dfs(self, V, vertices_visitados, arvore):
-        
-        # Variável "grafo" recebe um dicionário de chaves(vértices) em que seus valores são listas dos vértices adjacentes a ele
-        grafo = MeuGrafo.vertices_adjacentes(self)
-        arestas = self.arestas
-        
-        # Se vértice não estiver na lista de visitados, adicione-o
-        if V not in vertices_visitados:
-            vertices_visitados.append(V)
-            
-            # Percorre a lista de adjacentes da chave(vértice)
-            for vizinho in grafo[V]:
-                # Verifica se o vizinho não está na lista de visitados 
-                if vizinho not in vertices_visitados:
-                    # Percorre as arestas para poder pegar a aresta que tem os vértices "V" e "vizinho" nas extremidades
-                    for ars in arestas:
-                        # Verifica se essa formatação "V-vizinho" está igual a uma das arestas do grafo
-                        if f'{V}-{vizinho}' == str(arestas[ars])[3:6] or f'{vizinho}-{V}' == str(arestas[ars])[3:6] or f'{V}-{vizinho}' == str(arestas[ars])[2:5] or f'{vizinho}-{V}' == str(arestas[ars])[2:5]:
-                            arvore.append(ars)
-                            break
-                    MeuGrafo.dfs(self, vizinho, vertices_visitados, arvore)
-
-        return arvore
-            
-            
     def vertices_adjacentes(self):
 
         arestas = self.arestas
@@ -226,3 +190,63 @@ class MeuGrafo(GrafoListaAdjacencia):
                 dict_adjacentes[v2].append(v1)
 
         return dict_adjacentes
+    
+
+
+    def vertices_string(self):
+
+        vertices = self.vertices
+        vertices_string = list()
+
+        for c in range(len(vertices)):
+            vertices_string.append(str(vertices[c]))
+
+        return vertices_string
+
+
+
+    def dfs(self, V):
+        return self.dfs_rec(V, list(), MeuGrafo())
+
+    
+    def dfs_rec(self, V, vertices_visitados, arvore):
+        '''
+                
+        '''
+        # Variável "grafo" recebe um dicionário de chaves(vértices) em que seus valores são listas dos vértices adjacentes a ele
+        grafo = self.vertices_adjacentes()
+        arestas = self.arestas
+        # Variável "vertices_string" recebe uma lista de vértices em string
+        vertices_string = arvore.vertices_string()
+        
+        # Se vértice não estiver na lista de visitados, adicione-o
+        if V not in vertices_visitados:
+            vertices_visitados.append(V)
+            
+            # Verifica se o dicionário de adjacentes está vazio
+            if len(grafo) == 0:
+                return 
+            
+            # Percorre a lista de adjacentes da chave(vértice)
+            for vizinho in grafo[V]:
+                # Verifica se o vizinho não está na lista de visitados 
+                if vizinho not in vertices_visitados:
+                    # Percorre as arestas para poder pegar a aresta que tem os vértices "V" e "vizinho" nas extremidades
+                    for ars in arestas:
+                        # Verifica se a formatação "V-vizinho" ou "vizinho-V" está em uma das arestas do grafo
+                        if f'{V}-{vizinho}' in str(arestas[ars]) or f'{vizinho}-{V}' in str(arestas[ars]):
+                            # As duas condicionais abaixo verificam se os vértices V e vizinho estão na lista de "vertices_string" da árvore. Caso contrário, crie esses vértices no grafo "arvore"
+                            if V not in vertices_string:
+                                arvore.adiciona_vertice(V)
+                            if vizinho not in vertices_string:
+                                arvore.adiciona_vertice(vizinho)
+                           
+                            arvore.adiciona_aresta(ars, V, vizinho)
+                            break
+                    self.dfs_rec(vizinho, vertices_visitados, arvore)
+
+        return arvore
+    
+            
+            
+    
