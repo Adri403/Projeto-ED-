@@ -165,9 +165,7 @@ class MeuGrafo(GrafoListaAdjacencia):
 
 
     def vertices_adjacentes(self):
-        '''
-        Provê um dicionário em que cada chave é um vértice e valor é uma lista de vértices adjacentes a chave
-        '''
+
         arestas = self.arestas
         dict_adjacentes = dict()
 
@@ -198,9 +196,7 @@ class MeuGrafo(GrafoListaAdjacencia):
 
 
     def vertices_string(self):
-        '''
-        Provê uma lista de vértices, mas em string
-        '''
+
         vertices = self.vertices
         vertices_string = list()
 
@@ -210,29 +206,10 @@ class MeuGrafo(GrafoListaAdjacencia):
         return vertices_string
     
 
-    def gerar_permutacoes_do_grafo(dict_grafo):
-
-        # Lista para armazenar todas permutações do grafo
-        todas_permutacoes_grafo = list()
-
-        # Gera todas as permutações possíveis dos valores das chaves
-        permutacoes_valores = {chave: list(permutations(valores)) for chave, valores in dict_grafo.items()}
-
-        # Gera todos os grafos (dicionários) com ordens de elementos diferentes da lista de cada vértice (chave)
-        for combinacao in product(*permutacoes_valores.values()):
-            nova_permutacao = {chave: valores for chave, valores in zip(permutacoes_valores.keys(), combinacao)}
-            todas_permutacoes_grafo.append(nova_permutacao)
-        
-        return todas_permutacoes_grafo
-
 
     def dfs(self, V):
         return self.dfs_rec(V, list(), MeuGrafo(), self.vertices_adjacentes())
     
-    
-    def dfs_gerar_todas_arvores(self, V, permutacao_grafo):
-        return self.dfs_rec(V, list(), MeuGrafo(), permutacao_grafo)
-
 
     def dfs_rec(self, V, vertices_visitados, arvore, dict_grafo):
         '''
@@ -277,36 +254,7 @@ class MeuGrafo(GrafoListaAdjacencia):
     
 
     def gerar_todas_arvores(self, V):
-        '''
-        Gera todas as árvores DFS do grafo
-        Retorna uma lista de árvores
-        '''
-
-
-        todas_arvores_duplicatas = list()
-        todas_arvores = list()
-
-        # Variável "grafo" guarda um dicionário: {chave(vértice): valor(lista de vértices adjacentes)}
-        grafo = self.vertices_adjacentes()
-
-        '''
-        Váriavel "permutacoes_grafos" guarda um lista que cada elemento é um dicionário com as mesmas chaves do "grafo", 
-        mas os valores são listas que dentro delas possuem tuplas com mesmos vértices adjacentes, mas em ordens diferentes
-        '''
-        permutacoes_grafos = MeuGrafo.gerar_permutacoes_do_grafo(grafo)
-
-        # Percorre a lista de dicionários
-        for permutacao_grafo in permutacoes_grafos:
-            # Gera árvore DFS da permutação
-            arvore_dfs = self.dfs_gerar_todas_arvores(V, permutacao_grafo)
-            todas_arvores_duplicatas.append(arvore_dfs)
         
-        # Percorre a lista de árvores e as coloca em outra lista, mas sem duplicação
-        for arv in todas_arvores_duplicatas:
-            if arv not in todas_arvores:
-                todas_arvores.append(arv)
-
-
-        return todas_arvores
+      
         
     

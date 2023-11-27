@@ -176,6 +176,54 @@ class TestGrafo(unittest.TestCase):
         self.g_d2.adiciona_vertice("C")
         self.g_d2.adiciona_vertice("D")
 
+        # Árvores DFS dos grafos
+        self.g_p_arvore = MeuGrafo()
+        self.g_p_arvore.adiciona_vertice("J")
+        self.g_p_arvore.adiciona_vertice("C")
+        self.g_p_arvore.adiciona_vertice("E")
+        self.g_p_arvore.adiciona_vertice("P")
+        self.g_p_arvore.adiciona_vertice("M")
+        self.g_p_arvore.adiciona_vertice("T")
+        self.g_p_arvore.adiciona_vertice("Z")
+        self.g_p_arvore.adiciona_aresta("a1", "J", "C")
+        self.g_p_arvore.adiciona_aresta("a2", "C", "E")
+        self.g_p_arvore.adiciona_aresta("a4", "C", "P")
+        self.g_p_arvore.adiciona_aresta("a6", "C", "T")
+        self.g_p_arvore.adiciona_aresta("a8", "T", "M")
+        self.g_p_arvore.adiciona_aresta("a9", "T", "Z")
+
+        self.g_c_arvore = MeuGrafo()
+        self.g_c_arvore.adiciona_vertice("J")
+        self.g_c_arvore.adiciona_vertice("C")
+        self.g_c_arvore.adiciona_vertice("E")
+        self.g_c_arvore.adiciona_vertice("P")
+        self.g_c_arvore.adiciona_aresta('a2', 'E', 'J')
+        self.g_c_arvore.adiciona_aresta('a1', 'J', 'C')
+        self.g_c_arvore.adiciona_aresta('a5', 'C', 'P')
+
+        self.g_c2_arvore = MeuGrafo()
+        self.g_c2_arvore.adiciona_vertice("Nina")
+        self.g_c2_arvore.adiciona_vertice("Maria")
+        self.g_c2_arvore.adiciona_aresta("amiga", "Nina", "Maria")
+
+
+        self.g_l1_arvore = MeuGrafo()
+        self.g_l1_arvore.adiciona_vertice("A")
+        self.g_l1_arvore.adiciona_vertice("B")
+        self.g_l1_arvore.adiciona_aresta("a2", "A", "B")
+
+        self.g_l2_arvore = MeuGrafo()
+        self.g_l2_arvore.adiciona_vertice("A")
+        self.g_l2_arvore.adiciona_vertice("B")
+        self.g_l2_arvore.adiciona_aresta("a1", "B", "A")
+
+
+        self.g_d_arvore = MeuGrafo()
+        self.g_d_arvore.adiciona_vertice("A")
+        self.g_d_arvore.adiciona_vertice("B")
+        self.g_d_arvore.adiciona_aresta("asd", "A", "B")
+
+
     def test_adiciona_aresta(self):
         self.assertTrue(self.g_p.adiciona_aresta('a10', 'J', 'C'))
         a = Aresta("zxc", self.g_p.get_vertice("C"), self.g_p.get_vertice("Z"))
@@ -286,14 +334,15 @@ class TestGrafo(unittest.TestCase):
 
     
     def test_dfs(self):
-        self.assertEqual(self.g_p.dfs("J"), )
-        self.assertEqual(self.g_c.dfs("C"), ["a1", "a2", "a6"])
-        self.assertEqual(self.g_c2.dfs("Nina"), ["amiga"])
-        self.assertEqual(self.g_c3.dfs("Único"), [])
-        self.assertEqual(self.g_l1.dfs("A"), ["a2"])
-        self.assertEqual(self.g_l2.dfs("B"), ["a1"])
-        self.assertEqual(self.g_l3.dfs("C"), ["a1"])
-        self.assertEqual(self.g_l4.dfs("D"), [])
-        self.assertEqual(self.g_d.dfs("A"), ["asd"])
-        self.assertEqual(self.g_d2.dfs("B"), [])
+        self.assertEqual(self.g_p.dfs("J"), self.g_p_arvore)
+        self.assertEqual(self.g_c.dfs("E"), self.g_c_arvore)
+        self.assertEqual(self.g_c2.dfs("Nina"), self.g_c2_arvore)
+        self.assertEqual(self.g_c3.dfs("Único"), "Único")
+        self.assertEqual(self.g_l1.dfs("A"), self.g_l1_arvore)
+        self.assertEqual(self.g_l2.dfs("A"), self.g_l2_arvore)
+        self.assertEqual(self.g_d.dfs("A"), self.g_d_arvore)
+        self.assertEqual(self.g_d2.dfs("A"), "A")
+
+
+        
     

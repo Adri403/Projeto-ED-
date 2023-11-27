@@ -1,5 +1,6 @@
 from meu_grafo_lista_adj import MeuGrafo
 
+'''
 g_p = MeuGrafo()
 g_p.adiciona_vertice("J")
 g_p.adiciona_vertice("C")
@@ -18,85 +19,13 @@ g_p.adiciona_aresta('a7', 'M', 'C')
 g_p.adiciona_aresta('a8', 'M', 'T')
 g_p.adiciona_aresta('a9', 'T', 'Z')
 
-arvore_g_p = g_p.dfs("J")
+todas_arvores = g_p.gerar_todas_arvores("J")
 
-print(arvore_g_p)
+for c in todas_arvores:
+    print(c)
+    print('')
+
 '''
-# Clone do Grafo da Paraíba para ver se o método equals está funcionando
-g_p2 = MeuGrafo()
-g_p2.adiciona_vertice("J")
-g_p2.adiciona_vertice("C")
-g_p2.adiciona_vertice("E")
-g_p2.adiciona_vertice("P")
-g_p2.adiciona_vertice("M")
-g_p2.adiciona_vertice("T")
-g_p2.adiciona_vertice("Z")
-g_p2.adiciona_aresta('a1', 'J', 'C')
-g_p2.adiciona_aresta('a2', 'C', 'E')
-g_p2.adiciona_aresta('a3', 'C', 'E')
-g_p2.adiciona_aresta('a4', 'P', 'C')
-g_p2.adiciona_aresta('a5', 'P', 'C')
-g_p2.adiciona_aresta('a6', 'T', 'C')
-g_p2.adiciona_aresta('a7', 'M', 'C')
-g_p2.adiciona_aresta('a8', 'M', 'T')
-g_p2.adiciona_aresta('a9', 'T', 'Z')
-
-# Outro clone do Grafo da Paraíba para ver se o método equals está funcionando
-# Esse tem um pequena diferença na primeira aresta
-g_p3 = MeuGrafo()
-g_p3.adiciona_vertice("J")
-g_p3.adiciona_vertice("C")
-g_p3.adiciona_vertice("E")
-g_p3.adiciona_vertice("P")
-g_p3.adiciona_vertice("M")
-g_p3.adiciona_vertice("T")
-g_p3.adiciona_vertice("Z")
-g_p3.adiciona_aresta('a', 'J', 'C')
-g_p3.adiciona_aresta('a2', 'C', 'E')
-g_p3.adiciona_aresta('a3', 'C', 'E')
-g_p3.adiciona_aresta('a4', 'P', 'C')
-g_p3.adiciona_aresta('a5', 'P', 'C')
-g_p3.adiciona_aresta('a6', 'T', 'C')
-g_p3.adiciona_aresta('a7', 'M', 'C')
-g_p3.adiciona_aresta('a8', 'M', 'T')
-g_p3.adiciona_aresta('a9', 'T', 'Z')
-
-# Outro clone do Grafo da Paraíba para ver se o método equals está funcionando
-# Esse tem um pequena diferença na segunda aresta
-g_p4 = MeuGrafo()
-g_p4.adiciona_vertice("J")
-g_p4.adiciona_vertice("C")
-g_p4.adiciona_vertice("E")
-g_p4.adiciona_vertice("P")
-g_p4.adiciona_vertice("M")
-g_p4.adiciona_vertice("T")
-g_p4.adiciona_vertice("Z")
-g_p4.adiciona_aresta('a1', 'J', 'C')
-g_p4.adiciona_aresta('a2', 'J', 'E')
-g_p4.adiciona_aresta('a3', 'C', 'E')
-g_p4.adiciona_aresta('a4', 'P', 'C')
-g_p4.adiciona_aresta('a5', 'P', 'C')
-g_p4.adiciona_aresta('a6', 'T', 'C')
-g_p4.adiciona_aresta('a7', 'M', 'C')
-g_p4.adiciona_aresta('a8', 'M', 'T')
-g_p4.adiciona_aresta('a9', 'T', 'Z')
-
-# Grafo da Paraíba sem arestas paralelas
-g_p_sem_paralelas = MeuGrafo()
-g_p_sem_paralelas.adiciona_vertice("J")
-g_p_sem_paralelas.adiciona_vertice("C")
-g_p_sem_paralelas.adiciona_vertice("E")
-g_p_sem_paralelas.adiciona_vertice("P")
-g_p_sem_paralelas.adiciona_vertice("M")
-g_p_sem_paralelas.adiciona_vertice("T")
-g_p_sem_paralelas.adiciona_vertice("Z")
-g_p_sem_paralelas.adiciona_aresta('a1', 'J', 'C')
-g_p_sem_paralelas.adiciona_aresta('a2', 'C', 'E')
-g_p_sem_paralelas.adiciona_aresta('a3', 'P', 'C')
-g_p_sem_paralelas.adiciona_aresta('a4', 'T', 'C')
-g_p_sem_paralelas.adiciona_aresta('a5', 'M', 'C')
-g_p_sem_paralelas.adiciona_aresta('a6', 'M', 'T')
-g_p_sem_paralelas.adiciona_aresta('a7', 'T', 'Z')
 
 # Grafos completos
 g_c = MeuGrafo()
@@ -111,13 +40,36 @@ g_c.adiciona_aresta('a4', 'E', 'C')
 g_c.adiciona_aresta('a5', 'P', 'C')
 g_c.adiciona_aresta('a6', 'P', 'E')
 
+todas_arvores = g_c.gerar_todas_arvores("J")
+
+for g in todas_arvores:
+    print(g)
+    print('')
+
+'''
 g_c2 = MeuGrafo()
 g_c2.adiciona_vertice("Nina")
 g_c2.adiciona_vertice("Maria")
+g_c2.adiciona_vertice("Joana")
 g_c2.adiciona_aresta('amiga', 'Nina', 'Maria')
+g_c2.adiciona_aresta('amiga2', 'Nina', 'Joana')
+g_c2.adiciona_aresta('amiga3', 'Joana', 'Maria')
+
+arvores_g_c2 = g_c2.gerar_todas_arvores("Nina")
+
+for k in arvores_g_c2:
+    print(k)
+    print('')
+
 
 g_c3 = MeuGrafo()
 g_c3.adiciona_vertice("Único")
+
+arvore_g_c3 = g_c3.gerar_todas_arvores("Único")
+for c in arvore_g_c3:
+    print(c)
+    print('')
+
 
 # Grafos com laco
 g_l1 = MeuGrafo()
@@ -129,6 +81,14 @@ g_l1.adiciona_aresta('a1', 'A', 'A')
 g_l1.adiciona_aresta('a2', 'A', 'B')
 g_l1.adiciona_aresta('a3', 'A', 'A')
 
+todas_arvores_g_l1 = g_l1.gerar_todas_arvores("A")
+
+for c in todas_arvores_g_l1:
+    print(c)
+    print('')
+
+
+
 g_l2 = MeuGrafo()
 g_l2.adiciona_vertice("A")
 g_l2.adiciona_vertice("B")
@@ -138,25 +98,9 @@ g_l2.adiciona_aresta('a1', 'A', 'B')
 g_l2.adiciona_aresta('a2', 'B', 'B')
 g_l2.adiciona_aresta('a3', 'B', 'A')
 
-g_l3 = MeuGrafo()
-g_l3.adiciona_vertice("A")
-g_l3.adiciona_vertice("B")
-g_l3.adiciona_vertice("C")
-g_l3.adiciona_vertice("D")
-g_l3.adiciona_aresta('a1', 'C', 'A')
-g_l3.adiciona_aresta('a2', 'C', 'C')
-g_l3.adiciona_aresta('a3', 'D', 'D')
-g_l3.adiciona_aresta('a4', 'D', 'D')
+arvore_g_l2 = g_l2.dfs("B")
+print(arvore_g_l2)
 
-g_l4 = MeuGrafo()
-g_l4.adiciona_vertice("D")
-g_l4.adiciona_aresta('a1', 'D', 'D')
-
-g_l5 = MeuGrafo()
-g_l5.adiciona_vertice("C")
-g_l5.adiciona_vertice("D")
-g_l5.adiciona_aresta('a1', 'D', 'C')
-g_l5.adiciona_aresta('a2', 'C', 'C')
 
 # Grafos desconexos
 g_d = MeuGrafo()
@@ -166,10 +110,18 @@ g_d.adiciona_vertice("C")
 g_d.adiciona_vertice("D")
 g_d.adiciona_aresta('asd', 'A', 'B')
 
+arvore_g_d = g_d.dfs("A")
+
+
+print(arvore_g_d)
 g_d2 = MeuGrafo()
 g_d2.adiciona_vertice("A")
 g_d2.adiciona_vertice("B")
 g_d2.adiciona_vertice("C")
 g_d2.adiciona_vertice("D")
+
+arvore_g_d2 = g_d2.dfs("D")
+
+print(arvore_g_d2)
 
 '''
