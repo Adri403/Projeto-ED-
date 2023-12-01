@@ -125,3 +125,4 @@ arvore_g_d2 = g_d2.dfs("D")
 print(arvore_g_d2)
 
 '''
+
